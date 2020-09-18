@@ -1,0 +1,95 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Электросчётчики</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        select {
+            width: 173px; /* Ширина списка в пикселах */
+        }
+    </style>
+</head>
+<body>
+
+<table border="0" align="left" cellpadding="0" cellspacing="10">
+    <tr><td width="400" align="center" valign="top">
+        <table border="1" cellspacing="0"><tr><td>
+            <table border="0" bgcolor="#f0ffff" cellspacing="2">
+
+
+                <!--  Форма редактирования счётчика    -->
+
+                <div th:if="${edit_counter != null}" th:object="${edit_counter}">
+                    <form action="/edit_counter" method="post"><input type="hidden" name="counter_id" th:value="*{counter_id}">
+                        <tr>
+                            <td><label for="naming">Название:</label></td>
+                            <td><input type="text" id="naming" name="naming" required th:value="*{naming}"></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" align="center"><button type="submit">Изменить</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center"><a href="/streets">Добавить новый счетчик</a></td>
+                        </tr>
+                    </form>
+                </div>
+
+
+                <!--   Форма добавления счетчика     -->
+
+                <div th:if="${edit_counter == null}">
+                    <form action="/add_counter" method="post">
+                        <tr>
+                            <td><label for="naming">Название:</label></td>
+                            <td><input type="text" id="naming" name="naming" autofocus></td>
+                        </tr>
+                        <tr>
+                            <td><label for="startValue">Начальные показания:</label></td>
+                            <td><input type="text" id="startValue" name="startValue"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="land_id">Участок:</label></td>
+                            <td><input type="text" id="land_id" name="land_id"></td>
+                        </tr>
+                        <tr>
+                            <td><label for="status">Участок:</label></td>
+                            <td><input type="text" id="status" name="status" value="Активен" disabled></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" align="center"><button type="submit">Добавить</button></td>
+                        </tr>
+                    </form>
+                </div>
+            </table>
+        </td></tr></table>
+    </td>
+
+
+        <!-- Список улиц  -->
+
+        <td align="left" valign="top">
+            <table border="1" cellspacing="0" cellpadding="5">
+                <form action="/del_counter" method="get">
+                    <tr bgcolor="#f0ffff">
+                        <th width="250">Название счётчика</th>
+                        <th><input type="submit" value="Удалить"></th>
+                    </tr>
+
+                    <tr th:each="counter : ${counters}">
+                        <td width="150"><span><a th:href="@{counters?counter_id={str_id}(str_id=${counter.counter_id})}" th:text="${counter.naming}"></a></span></td>
+                        <td><input type="checkbox" name="mark_item" th:value="${counter.counter_id}"></td>
+                    </tr>
+
+                </form>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div>
+
+    <a href="/"><- Назад</a>
+</div>
+</body>
+</html>

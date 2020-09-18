@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Собственники</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<table border="0" align="left" cellpadding="0" cellspacing="10">
+    <tr><td width="400" align="center" valign="top">
+    <table border="1" cellspacing="0"><tr><td>
+    <table border="0" bgcolor="#f0ffff" cellspacing="2">
+
+        <div th:if="${edit_owner != null}">
+            <form action="edit_owner" method="post"><input type="hidden" name="owner_id" th:value="${edit_owner.owner_id}" />
+            <tr>
+                <td><label for="lastname">Фамилия</label></td><td><input type="text" id="lastname" name="lastname" required th:value="${edit_owner.lastname}" /></td>
+            </tr>
+            <tr>
+                <td><label for="firstname">Имя</label></td><td><input type="text" id="firstname" name="firstname" required th:value="${edit_owner.firstname}" /></td>
+            </tr>
+            <tr>
+                <td><label for="patronymic">Отчество</label></td><td><input type="text" id="patronymic" name="patronymic" required th:value="${edit_owner.patronymic}" /></td>
+            </tr>
+            <tr>
+                <td><label for="phone">Телефон</label></td><td><input type="text" id="phone" name="phone" value="" th:value="${edit_owner.phone}" /></td>
+            </tr>
+            <tr>
+                <td><label for="comment">Комментарий</label></td><td><input type="text" id="comment" name="comment" value="" th:value="${edit_owner.comment}" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><button type="submit">Изменить</button></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><a href="/owners">Добавить нового собственника</a></td>
+            </tr>
+            </form>
+        </div>
+
+
+        <div th:if="${edit_owner == null}">
+            <form action="add_owner" method="post">
+                <tr>
+                    <td><label for="lastname">Фамилия</label></td><td><input type="text" id="lastname" name="lastname" required></td>
+                </tr>
+                <tr>
+                    <td><label for="firstname">Имя</label></td><td><input type="text" id="firstname" name="firstname" required></td>
+                </tr>
+                <tr>
+                    <td><label for="patronymic">Отчество</label></td><td><input type="text" id="patronymic" name="patronymic"></td>
+                </tr>
+                <tr>
+                    <td><label for="phone">Телефон</label></td><td><input type="text" id="phone" name="phone"></td>
+                </tr>
+                <tr>
+                    <td><label for="comment">Комментарий</label></td><td><input type="text" id="comment" name="comment"></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="submit">Добавить</button>
+                        <button type="reset">Очистить</button>
+                    </td>
+
+                </tr>
+            </form>
+        </div>
+<!--        {{/edit_owner}}   -->
+    </table>
+    </td></tr></table>
+    </td>
+    <td align="left" valign="top">
+        <table border="1" cellspacing="0" cellpadding="5">
+            <form action="del_owners" method="get">
+            <tr bgcolor="#f0ffff">
+
+                <th width="150">Фамилия</th>
+                <th width="120">Имя</th>
+                <th width="150">Отчество</th>
+                <th width="140">Телефон</th>
+                <th width="300">Комментарий</th>
+                <th><input type="submit" value="Удалить"></th>
+
+            </tr>
+
+            <tr th:if="${owner.owner_id != 0}" th:each = "owner : ${owners}" th:inline="text">
+                <td width="150"><span><a th:href="@{/owners?owner_id={own_id}(own_id=${owner.owner_id})}" th:text="${owner.lastname}"></a></span></td>
+                <td width="120" th:text="${owner.firstname}"></td>
+                <td width="150" th:text="${owner.patronymic}"></td>
+                <td width="140" th:text="${owner.phone}"></td>
+                <td width="300" th:text="${owner.comment}"></td>
+                <td><input type="checkbox" name="mark_item" th:value="${owner.owner_id}"></td>
+            </tr>
+
+            </form>
+        </table>
+    </td>
+    </tr>
+</table>
+
+<div>
+
+    <a href="/"><- Назад</a>
+</div>
+</body>
+</html>

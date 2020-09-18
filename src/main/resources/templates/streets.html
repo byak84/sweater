@@ -1,0 +1,83 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Улицы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        select {
+            width: 173px; /* Ширина списка в пикселах */
+        }
+    </style>
+</head>
+<body>
+
+<table border="0" align="left" cellpadding="0" cellspacing="10">
+    <tr><td width="400" align="center" valign="top">
+        <table border="1" cellspacing="0"><tr><td>
+            <table border="0" bgcolor="#f0ffff" cellspacing="2">
+
+
+                <!--  Форма редактирования улиц    -->
+
+                <div th:if="${edit_street != null}" th:object="${edit_street}">
+                    <form action="/edit_street" method="post"><input type="hidden" name="street_id" th:value="*{street_id}">
+                        <tr>
+                            <td><label for="name">Название:</label></td>
+                            <td><input type="text" id="name" name="name" required th:value="*{name}"></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" align="center"><button type="submit">Изменить</button></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center"><a href="/streets">Добавить новую улицу</a></td>
+                        </tr>
+                    </form>
+                </div>
+
+
+                <!--   Форма добавления улицы     -->
+
+                <div th:if="${edit_street == null}">
+                    <form action="/add_street" method="post">
+                        <tr>
+                            <td><label for="name">Название:</label></td>
+                            <td><input type="text" id="name" name="name"></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" align="center"><button type="submit">Добавить</button></td>
+                        </tr>
+                    </form>
+                </div>
+            </table>
+        </td></tr></table>
+    </td>
+
+
+        <!-- Список улиц  -->
+
+        <td align="left" valign="top">
+            <table border="1" cellspacing="0" cellpadding="5">
+                <form action="/del_streets" method="get">
+                    <tr bgcolor="#f0ffff">
+                        <th width="250">Название улицы</th>
+                        <th><input type="submit" value="Удалить"></th>
+                    </tr>
+
+                    <tr th:each="street : ${streets}">
+                        <td width="150"><span><a th:href="@{streets?street_id={str_id}(str_id=${street.street_id})}" th:text="${street.name}"></a></span></td>
+                        <td><input type="checkbox" name="mark_item" th:value="${street.street_id}"></td>
+                    </tr>
+
+                </form>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<div>
+
+    <a href="/"><- Назад</a>
+</div>
+</body>
+</html>
