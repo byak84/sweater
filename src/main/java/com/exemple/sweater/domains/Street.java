@@ -10,8 +10,8 @@ public class Street {
     private Integer street_id;
     private String name;
 
-    @OneToMany (mappedBy = "street")
-    List<Land> lands;
+//    @OneToMany (mappedBy = "street")
+//    List<Land> lands;
 
     public Street() {}
 
@@ -35,11 +35,11 @@ public class Street {
         this.name = name;
     }
 
-    public List<Land> getLands() {
-        return lands;
-    }
-
-    public void setLands(List<Land> lands) {
-        this.lands = lands;
-    }
+//    public List<Land> getLands() {
+//        return lands;
+//    }
+//
+//    public void setLands(List<Land> lands) {
+//        this.lands = lands;
+//    }
 }

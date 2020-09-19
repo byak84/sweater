@@ -1,16 +1,19 @@
 package com.exemple.sweater.domains;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Owner {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer owner_id;
 
-
-    @OneToMany (mappedBy = "owner")
+    //    @JsonManagedReference
+    @JsonBackReference
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Land> lands;
 
     private String firstname;          // Имя
@@ -19,7 +22,8 @@ public class Owner {
     private String phone;
     private String comment;
 
-    public Owner() {}
+    public Owner() {
+    }
 
     public Owner(String firstname, String lastname, String patronymic, String phone, String comment) {
 
@@ -70,9 +74,7 @@ public class Owner {
         this.patronymic = patronymic;
     }
 
-    public String getPhone() {
-        return phone;
-    }
+    public String getPhone() { return phone; }
 
     public void setPhone(String phone) {
         this.phone = phone;
@@ -86,7 +88,7 @@ public class Owner {
         this.comment = comment;
     }
 
-    public String getFullName() {
-        return lastname+" "+firstname+" "+patronymic;
-    }
+//    public String getFullName() {
+//        return lastname + " " + firstname + " " + patronymic;
+//    }
 }
