@@ -3,6 +3,7 @@ package com.exemple.sweater.controllers;
 import com.exemple.sweater.domains.Owner;
 import com.exemple.sweater.repos.OwnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class OwnerController {
         return result;
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Owner Add(@Valid @RequestBody Owner owner) {
        ownerRepo.saveAndFlush(owner);
        return owner;

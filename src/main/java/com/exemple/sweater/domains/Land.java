@@ -1,5 +1,6 @@
 package com.exemple.sweater.domains;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,10 +12,10 @@ public class Land {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer land_id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_id")
-    //@JsonBackReference
-    @JsonManagedReference
+//    @JsonManagedReference
+    @JsonBackReference
     private Owner owner;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
