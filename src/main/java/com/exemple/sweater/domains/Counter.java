@@ -1,5 +1,7 @@
 package com.exemple.sweater.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -12,8 +14,9 @@ public class Counter {
     private String naming;
     private int value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "land_id")
+    @JsonIgnoreProperties("counters")
     private Land land;
 
     private boolean active;
@@ -51,9 +54,7 @@ public class Counter {
         this.naming = naming;
     }
 
-    public int getValue() {
-        return value;
-    }
+    public int getValue() { return value; }
 
     public void setValue(int value) {
         this.value = value;

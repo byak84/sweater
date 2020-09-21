@@ -17,19 +17,8 @@ public interface OwnerRepo extends JpaRepository<Owner, Integer> {
 //    @Query(value = "select e from Owner e order by e.lastname")
 //    List<Owner> findAll();
 //
-//    //@Query(value = "select * from owner where owner_id=?1", nativeQuery = true)
-//    @Query(value = "select e from Owner e where e.owner_id=?1")
-//    Owner findByOwner_id(Integer owner_id);
-//
-//    @Modifying
-//    @Transactional
-//    @Query(value = "update owner set firstname=?2, lastname=?3, patronymic=?4, phone=?5, comment=?6 where owner_id=?1", nativeQuery = true)
-//    void UpdateUserInfoByID(Integer owner_id, String firstname, String lastname, String patronymic, String phone, String comment);
-//
-//    @Modifying
-//    @Transactional
-//    @Query(value = "delete from owner where owner_id=?1", nativeQuery = true)
-//    void delByID(Integer owner_id);
 
+    @Query(value = "select e from Owner e where e.owner_id=?1")
+    Owner findByOwner_id(Integer owner_id);
 
 }

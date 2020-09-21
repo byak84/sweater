@@ -1,71 +1,63 @@
-//package com.exemple.sweater.controllers;
-//
-//import com.exemple.sweater.domains.Land;
-//import com.exemple.sweater.domains.Street;
-//import com.exemple.sweater.repos.StreetRepo;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestParam;
-//
-//import java.io.IOException;
-//import java.sql.SQLException;
-//import java.util.List;
-//
-//@Controller
-//public class StreetController {
-//
-//    @Autowired
-//    StreetRepo streetRepo;
-//
-//    @GetMapping("/streets")
-//    public String streetsList(@RequestParam(required = false) Integer street_id, Model model)
-//    {
-//        List<Street> streets = streetRepo.findAll();
-//
-//        if (street_id != null)
-//        {
-//            Street edit_street  = streetRepo.findByID(street_id);
-//            model.addAttribute("edit_street", edit_street);
-//        }
-//
-//        model.addAttribute("streets", streets);
-//
-//        return "streets.html";
-//    }
-//
-//    @PostMapping("/add_street")
-//    public String addStreet(@RequestParam String name, Model model)
-//    {
-//        Street street = new Street(name);
-//        streetRepo.saveAndFlush(street);
-//
-//        return "redirect:/streets";
-//    }
-//
-//    @PostMapping("/edit_street")
-//    public String editStreet(@RequestParam Integer street_id, @RequestParam String name, Model model)
-//    {
-//        Street street = new Street();
-//        street.setStreet_id(street_id);
-//        street.setName(name);
-//        streetRepo.saveAndFlush(street);
-//
-//        return "redirect:/streets";
-//    }
-//
-//    @GetMapping("/del_streets")
-//    public String delStreet(@RequestParam List<Integer> mark_item)
-//    {
-//        for (Integer item: mark_item) {
-//            try {
-//                streetRepo.deleteById(item);
-//            } catch (Exception e) {return "errors/error.html";}
-//
-//        }
-//        return "redirect:/streets";
-//
-//    }
-//}
+package com.exemple.sweater.controllers;
+
+import com.exemple.sweater.domains.Street;
+import com.exemple.sweater.repos.StreetRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
+@RequestMapping("/street")
+public class StreetController {
+
+    @Autowired
+    StreetRepo streetRepo;
+
+    //Получить все улицы
+    @GetMapping()
+    public ResponseEntity<List<Street>> GetAll() {
+        return new ResponseEntity<>(streetRepo.findAll(), HttpStatus.OK);
+    }
+
+    // Получить собственника по id
+    @GetMapping("{id}")
+    public ResponseEntity<Street> GetOne(@PathVariable Integer id) {
+        final Street result = streetRepo.findByStreet_id(id);
+        return result != null
+                ? new ResponseEntity<>(result, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // Создать улицу
+    @PostMapping()
+    public ResponseEntity<Street> Add(@Valid @RequestBody Street street) {
+        Street result = streetRepo.saveAndFlush(street);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    // Изменить улицу
+    @PutMapping("{id}")
+    public ResponseEntity<Street> update(@PathVariable Integer id, @RequestBody Street street) {
+        street.setStreet_id(id);
+        Street result = streetRepo.saveAndFlush(street);
+        return result != null
+                ? new ResponseEntity<>(result, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    // Удалить собственника по id
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        if (streetRepo.findByStreet_id(id) == null) {
+            return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+        } else {
+            streetRepo.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
+}

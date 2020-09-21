@@ -3,12 +3,12 @@ package com.exemple.sweater.controllers;
 import com.exemple.sweater.domains.Owner;
 import com.exemple.sweater.repos.OwnerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/owner")
@@ -16,60 +16,48 @@ public class OwnerController {
     @Autowired
     private OwnerRepo ownerRepo;
 
-
+    //Получить всех собственников
     @GetMapping
-    public List<Owner> GetAll() {
-        return ownerRepo.findAll();
+    public ResponseEntity<List<Owner>> GetAll() {
+        return new ResponseEntity<>(ownerRepo.findAll(),HttpStatus.OK);
     }
 
+    // Получить собственника по id
     @GetMapping("{id}")
-    public Optional<Owner> GetOne(@PathVariable Integer id) {
-        Owner owner = new Owner();
-        Optional<Owner> result = (ownerRepo.findById(id) == null) ? ownerRepo.findById(id) : Optional.ofNullable(owner);
-        return result;
+    public ResponseEntity<Owner> GetOne(@PathVariable Integer id) {
+        final Owner result = ownerRepo.findByOwner_id(id);
+        return result != null
+                ? new ResponseEntity<>(result, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Owner Add(@Valid @RequestBody Owner owner) {
-       ownerRepo.saveAndFlush(owner);
-       return owner;
+    // Создать собcтвенника
+    @PostMapping()
+    public ResponseEntity<Owner> Add(@Valid @RequestBody Owner owner) {
+        Owner result = ownerRepo.saveAndFlush(owner);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    // Изменить собcтвенника
+    @PutMapping("{id}")
+    public ResponseEntity<Owner> update(@PathVariable Integer id, @RequestBody Owner owner) {
+        owner.setOwner_id(id);
+        Owner result = ownerRepo.saveAndFlush(owner);
+        return result != null
+                ? new ResponseEntity<>(result, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
 
-//    @PostMapping("add_owner")
-//    public String addOwner(@RequestParam String firstname, @RequestParam String lastname, @RequestParam String patronymic, @RequestParam String phone, @RequestParam String comment, Map<String, Object> model)
-//    {
-//        Owner owner = new Owner(firstname,lastname,patronymic,phone,comment);
-//        ownerRepo.saveAndFlush(owner);
-//
-//        return "redirect:/owners";
-//    }
-//
-//    @PostMapping("edit_owner")
-//    public String editOwner(@RequestParam Integer owner_id, @RequestParam String firstname, @RequestParam String lastname, @RequestParam String patronymic, @RequestParam String phone, @RequestParam String comment, Map<String, Object> model)
-//    {
-//        Owner owner = new Owner(firstname,lastname,patronymic,phone,comment);
-//        owner.setOwner_id(owner_id);
-//        ownerRepo.saveAndFlush(owner);
-//
-//        return "redirect:/owners";
-//    }
-//
-//    @GetMapping("del_owners")
-//    public String delOwners(@RequestParam List<Integer> mark_item)
-//    {
-//        for (Integer item: mark_item) {
-//            ownerRepo.delByID(item);
-//        }
-//
-//        return "redirect:/owners";
-//    }
-//
-//    @GetMapping("/")
-//    public String main (Map<String, Object> model)
-//    {
-//
-//        return "main.html";
-//
-//    }
+    // Удалить собственника по id
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        if (ownerRepo.findByOwner_id(id) == null) {
+            return new ResponseEntity(HttpStatus.NOT_MODIFIED);
+        }
+        else {
+            ownerRepo.deleteById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        }
+    }
+
 }

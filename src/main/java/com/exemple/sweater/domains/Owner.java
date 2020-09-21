@@ -1,6 +1,7 @@
 package com.exemple.sweater.domains;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -13,9 +14,8 @@ public class Owner {
     private Integer owner_id;
 
 
-//    @JsonBackReference
-    @JsonManagedReference
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @JsonIgnoreProperties(value = "owner", allowSetters = true)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Land> lands;
 
     private String firstname;          // Имя
