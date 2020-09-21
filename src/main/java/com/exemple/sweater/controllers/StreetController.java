@@ -49,7 +49,7 @@ public class StreetController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    // Удалить собственника по id
+    // Удалить улицу по id
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         if (streetRepo.findByStreet_id(id) == null) {
