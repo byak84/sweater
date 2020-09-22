@@ -1,8 +1,6 @@
 package com.exemple.sweater.domains;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -90,7 +88,7 @@ public class Owner {
         this.comment = comment;
     }
 
-//    public String getFullName() {
-//        return lastname + " " + firstname + " " + patronymic;
-//    }
+    public String getFullName() {
+        return lastname + " " + firstname + " " + patronymic;
+    }
 }

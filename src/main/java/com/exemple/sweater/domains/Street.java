@@ -1,17 +1,20 @@
 package com.exemple.sweater.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Street {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer street_id;
     private String name;
 
-//    @OneToMany (mappedBy = "street")
-//    List<Land> lands;
+    @OneToMany(mappedBy = "street", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties(value = "street", allowSetters = true)
+    List<Land> lands;
 
     public Street() {}
 
@@ -35,11 +38,12 @@ public class Street {
         this.name = name;
     }
 
-//    public List<Land> getLands() {
-//        return lands;
-//    }
-//
-//    public void setLands(List<Land> lands) {
-//        this.lands = lands;
-//    }
+    public List<Land> getLands() {
+        return lands;
+    }
+
+    public void setLands(List<Land> lands) {
+        this.lands = lands;
+    }
+
 }
