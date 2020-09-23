@@ -1,11 +1,11 @@
-package com.exemple.sweater.controllers;
+package com.example.sweater.controllers;
 
-import com.exemple.sweater.domains.Land;
-import com.exemple.sweater.domains.Owner;
-import com.exemple.sweater.domains.Street;
-import com.exemple.sweater.repos.LandRepo;
-import com.exemple.sweater.repos.OwnerRepo;
-import com.exemple.sweater.repos.StreetRepo;
+import com.example.sweater.repos.LandRepo;
+import com.example.sweater.repos.OwnerRepo;
+import com.example.sweater.domains.Land;
+import com.example.sweater.domains.Owner;
+import com.example.sweater.domains.Street;
+import com.example.sweater.repos.StreetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +46,7 @@ public class LandController {
     }
 
     @PostMapping("/add_land")
-    public String addLand(@RequestParam Integer street_id, @RequestParam String number, @RequestParam String cadastr, @RequestParam Integer people_count, @RequestParam Integer owner_id,Model model) {
+    public String addLand(@RequestParam Integer street_id, @RequestParam String number, @RequestParam String cadastr, @RequestParam Integer people_count, @RequestParam Integer owner_id) {
         Street street = streetRepo.findByID(street_id);
         Owner owner = ownerRepo.findByOwner_id(owner_id);
         Land land = new Land(street, number, cadastr);
@@ -58,7 +58,7 @@ public class LandController {
     }
 
     @PostMapping("/edit_land")
-    public String editLand(@RequestParam("land_id") Land land, @RequestParam("street_id") Street street, @RequestParam("owner_id") Owner owner, @RequestParam String number, @RequestParam String cadastr, @RequestParam Integer people_count, Model model) {
+    public String editLand(@RequestParam("land_id") Land land, @RequestParam("street_id") Street street, @RequestParam("owner_id") Owner owner, @RequestParam String number, @RequestParam String cadastr, @RequestParam Integer people_count) {
         land.setPeople_count(people_count);
         land.setNumber(number);
         land.setCadastr(cadastr);

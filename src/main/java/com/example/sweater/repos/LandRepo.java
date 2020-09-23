@@ -1,7 +1,6 @@
-package com.exemple.sweater.repos;
+package com.example.sweater.repos;
 
-import com.exemple.sweater.domains.Land;
-import com.exemple.sweater.domains.Owner;
+import com.example.sweater.domains.Land;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

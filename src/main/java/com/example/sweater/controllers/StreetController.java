@@ -1,8 +1,7 @@
-package com.exemple.sweater.controllers;
+package com.example.sweater.controllers;
 
-import com.exemple.sweater.domains.Land;
-import com.exemple.sweater.domains.Street;
-import com.exemple.sweater.repos.StreetRepo;
+import com.example.sweater.domains.Street;
+import com.example.sweater.repos.StreetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller

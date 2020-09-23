@@ -1,4 +1,4 @@
-package com.exemple.sweater.domains;
+package com.example.sweater.domains;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,4 +1,4 @@
-package com.exemple.sweater.services;
+package com.example.sweater.services;
 
 import org.springframework.stereotype.Service;
 
