@@ -33,7 +33,7 @@ public class LandController {
     public String landsList(@RequestParam(required = false) Integer land_id, Model model) {
         List<Land> lands = landRepo.findAll();
         List<Street> streets = streetRepo.findAll();
-        List<Owner> owners = ownerRepo.findAllOrderById();
+        List<Owner> owners = ownerRepo.findAll();
 
         if (land_id != null) {
             Land edit_land = landRepo.findByLand_id(land_id);

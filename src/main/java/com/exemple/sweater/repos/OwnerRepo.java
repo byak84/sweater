@@ -33,6 +33,4 @@ public interface OwnerRepo extends JpaRepository<Owner, Integer> {
     @Query(value = "delete from owner where owner_id=?1", nativeQuery = true)
     void delByID(Integer owner_id);
 
-    List<Owner> findAllOrderById();
-
 }
