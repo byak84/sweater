@@ -1,13 +1,9 @@
-package com.exemple.sweater.repos;
+package com.example.sweater.repos;
 
-import com.exemple.sweater.domains.Owner;
-import com.exemple.sweater.domains.Street;
+import com.example.sweater.domains.Street;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface StreetRepo extends JpaRepository<Street, Integer> {

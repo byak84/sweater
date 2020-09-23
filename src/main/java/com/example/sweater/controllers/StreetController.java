@@ -1,7 +1,7 @@
-package com.exemple.sweater.controllers;
+package com.example.sweater.controllers;
 
-import com.exemple.sweater.domains.Street;
-import com.exemple.sweater.repos.StreetRepo;
+import com.example.sweater.domains.Street;
+import com.example.sweater.repos.StreetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

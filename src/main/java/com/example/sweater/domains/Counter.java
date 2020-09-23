@@ -1,4 +1,4 @@
-package com.exemple.sweater.domains;
+package com.example.sweater.domains;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

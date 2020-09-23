@@ -1,7 +1,7 @@
-package com.exemple.sweater.controllers;
+package com.example.sweater.controllers;
 
-import com.exemple.sweater.domains.Counter;
-import com.exemple.sweater.repos.CounterRepo;
+import com.example.sweater.domains.Counter;
+import com.example.sweater.repos.CounterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

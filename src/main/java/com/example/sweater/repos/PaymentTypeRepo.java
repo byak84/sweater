@@ -1,6 +1,6 @@
-package com.exemple.sweater.repos;
+package com.example.sweater.repos;
 
-import com.exemple.sweater.domains.PaymentType;
+import com.example.sweater.domains.PaymentType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
