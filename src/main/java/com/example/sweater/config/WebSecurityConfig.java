@@ -13,20 +13,20 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private DataSource dataSource;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                    .httpBasic()
-                .and()
-                    .authorizeRequests()
-                    .antMatchers(HttpMethod.GET, "/owner").hasRole("USER")
-                    .antMatchers(HttpMethod.GET, "/land").hasRole("ADMIN")
-                  .and()
-                    .csrf().disable()
-                    .formLogin().disable();
+                .httpBasic().disable()
+                .csrf().disable()
+                .formLogin().disable();
+//                    .httpBasic()
+//                .and()
+//                    .authorizeRequests()
+//                    .antMatchers(HttpMethod.GET, "/owner").hasRole("USER")
+//                    .antMatchers(HttpMethod.GET, "/land").hasRole("ADMIN")
+//                  .and()
+//                    .csrf().disable()
+//                    .formLogin().disable();
     }
 
     @Override

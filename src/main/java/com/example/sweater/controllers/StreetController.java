@@ -2,7 +2,6 @@ package com.example.sweater.controllers;
 
 import com.example.sweater.domains.Street;
 import com.example.sweater.repos.StreetRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,12 @@ import java.util.List;
 @RequestMapping("/street")
 public class StreetController {
 
-    @Autowired
-    StreetRepo streetRepo;
+//    @Autowired
+    private final StreetRepo streetRepo;
+
+    public StreetController(StreetRepo streetRepo) {
+        this.streetRepo = streetRepo;
+    }
 
     //Получить все улицы
     @GetMapping()
