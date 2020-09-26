@@ -9,6 +9,9 @@ import java.util.Collection;
 @Entity
 @Table(name = "usr")
 public class AppUser implements UserDetails {
+
+    //enum Role { USER, ADMIN }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int user_id;
@@ -17,8 +20,21 @@ public class AppUser implements UserDetails {
     private String password;
     private boolean active;
 
+//    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+//    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public AppUser() {
     }
+
+//    public static AppUser fromUserEntityToCustomUserDetails(AppUser appUser) {
+//        AppUser c = new AppUser();
+//        c.login = userEntity.getLogin();
+//        c.password = userEntity.getPassword();
+//        c.grantedAuthorities = Collections.singletonList(new SimpleGrantedAuthority(userEntity.getRoleEntity().getName()));
+//        return c;
+//    }
 
     public int getUser_id() {
         return user_id;
@@ -77,5 +93,13 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

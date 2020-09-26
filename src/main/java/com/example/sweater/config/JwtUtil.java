@@ -1,15 +1,15 @@
 package com.example.sweater.config;
 
 import com.example.sweater.domains.AppUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import com.example.sweater.domains.Role;
+import io.jsonwebtoken.*;
+//import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.*;
 
 @Component
 public class JwtUtil {
@@ -18,41 +18,65 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private String expirationTime;
 
-    public String extractUsername(String authToken) {
-        return getClaimsFromToken(authToken)
-                .getSubject();
+    public String extractUsername3(String authToken) {
+        return null;
+//        return getClaimsFromToken(authToken)
+//                .getSubject();
     }
 
-    public Claims getClaimsFromToken(String authToken) {
-        String key = Base64.getEncoder().encodeToString(secret.getBytes());
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(authToken)
-                .getBody();
+    public Claims getClaimsFromToken2(String authToken) {
+        return null;
+//        String key = Base64.getEncoder().encodeToString(secret.getBytes());
+//
+//        return Jwts.parserBuilder()
+//                .setSigningKey(key)
+//                .build()
+//                .parseClaimsJws(authToken)
+//                .getBody();
     }
 
     public boolean validateToken(String authToken) {
-        return getClaimsFromToken(authToken)
-                .getExpiration()
-                .after(new Date());
+        try {
+            Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(authToken);
+            return true;
+        } catch (ExpiredJwtException expEx) {
+            //log.severe("Token expired");
+            System.out.println("Token expired");
+        } catch (UnsupportedJwtException unsEx) {
+            //log.severe("Unsupported jwt");
+            System.out.println("Unsupported jwt");
+        } catch (MalformedJwtException mjEx) {
+            //log.severe("Malformed jwt");
+            System.out.println("Malformed jwt");
+        } catch (SignatureException sEx) {
+            //log.severe("Invalid signature");
+            System.out.println("Invalid signature");
+        } catch (Exception e) {
+            //log.severe("invalid token");
+            System.out.println("invalid token");
+        }
+        return false;
     }
+
+    public String getLoginFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+
 
     public String generateToken(AppUser appUser) {
         HashMap<String, Object> claims = new HashMap<>();
-        //claims.put("role", List.of(AppUser.getRole()));
-        claims.put("role", "");
 
         long expirationSeconds = Long.parseLong(expirationTime);
         Date creationDate = new Date();
         Date expirationDate = new Date(creationDate.getTime() + expirationSeconds * 1000);
 
         return Jwts.builder()
-             //   .setClaims(claims)
+                .setClaims(claims)
                 .setSubject(appUser.getUsername())
                 .setIssuedAt(creationDate)
                 .setExpiration(expirationDate)
-                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
+                .signWith(SignatureAlgorithm.HS512, secret.getBytes())
                 .compact();
     }
 }
