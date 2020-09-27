@@ -1,5 +1,6 @@
 package com.example.sweater.config;
 
+import com.example.sweater.jwt.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,16 +19,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .httpBasic().disable()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/user/login").permitAll()
-                .anyRequest().authenticated()
-//                .antMatchers(HttpMethod.GET,"/land/*").denyAll()
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/user/login").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
 }

@@ -1,28 +1,21 @@
-package com.example.sweater.config;
+package com.example.sweater.jwt;
 
 import com.example.sweater.domains.AppUser;
-import com.example.sweater.domains.Role;
 import io.jsonwebtoken.*;
-//import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
 
 @Component
 public class JwtUtil {
+
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
     private String expirationTime;
 
-    public String extractUsername3(String authToken) {
-        return null;
-//        return getClaimsFromToken(authToken)
-//                .getSubject();
-    }
 
     public Claims getClaimsFromToken2(String authToken) {
         return null;
@@ -40,25 +33,20 @@ public class JwtUtil {
             Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(authToken);
             return true;
         } catch (ExpiredJwtException expEx) {
-            //log.severe("Token expired");
             System.out.println("Token expired");
         } catch (UnsupportedJwtException unsEx) {
-            //log.severe("Unsupported jwt");
             System.out.println("Unsupported jwt");
         } catch (MalformedJwtException mjEx) {
-            //log.severe("Malformed jwt");
             System.out.println("Malformed jwt");
         } catch (SignatureException sEx) {
-            //log.severe("Invalid signature");
             System.out.println("Invalid signature");
         } catch (Exception e) {
-            //log.severe("invalid token");
             System.out.println("invalid token");
         }
         return false;
     }
 
-    public String getLoginFromToken(String token) {
+    public String getSubjectFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
         return claims.getSubject();
     }
